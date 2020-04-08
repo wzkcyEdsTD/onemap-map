@@ -1,0 +1,17 @@
+E:\Documents\DCI2015\ONEMAP\Code\DCI.Client\bin\Client.dll
+E:\Documents\DCI2015\ONEMAP\Code\DCI.Client\bin\Client.pdb
+E:\Documents\DCI2015\ONEMAP\Code\DCI.Client\obj\Debug\Client.dll
+E:\Documents\DCI2015\ONEMAP\Code\DCI.Client\obj\Debug\Client.pdb
+E:\Documents\DCI2015\ONEMAP\Code\DCI.Client\obj\Debug\DCI.Client.csprojResolveAssemblyReference.cache
+E:\idea\201712开发区市政\DCI.Client\bin\Client.dll.config
+E:\idea\201712开发区市政\DCI.Client\bin\Client.dll
+E:\idea\201712开发区市政\DCI.Client\bin\Client.pdb
+E:\idea\201712开发区市政\DCI.Client\obj\Debug\DCI.Client.csprojResolveAssemblyReference.cache
+E:\idea\201712开发区市政\DCI.Client\obj\Debug\Client.dll
+E:\idea\201712开发区市政\DCI.Client\obj\Debug\Client.pdb
+G:\zmc\01开发区市政\DCI.Client\bin\Client.dll.config
+G:\zmc\01开发区市政\DCI.Client\bin\Client.dll
+G:\zmc\01开发区市政\DCI.Client\bin\Client.pdb
+G:\zmc\01开发区市政\DCI.Client\obj\Debug\Client.dll
+G:\zmc\01开发区市政\DCI.Client\obj\Debug\Client.pdb
+G:\zmc\01开发区市政\DCI.Client\obj\Debug\DCI.Client.csprojResolveAssemblyReference.cache
