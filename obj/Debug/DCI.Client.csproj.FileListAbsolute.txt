@@ -15,3 +15,10 @@ G:\zmc\01开发区市政\DCI.Client\bin\Client.pdb
 G:\zmc\01开发区市政\DCI.Client\obj\Debug\Client.dll
 G:\zmc\01开发区市政\DCI.Client\obj\Debug\Client.pdb
 G:\zmc\01开发区市政\DCI.Client\obj\Debug\DCI.Client.csprojResolveAssemblyReference.cache
+F:\PROJECTS\github\onemap-map\bin\Client.dll.config
+F:\PROJECTS\github\onemap-map\bin\Client.dll
+F:\PROJECTS\github\onemap-map\bin\Client.pdb
+F:\PROJECTS\github\onemap-map\obj\Debug\DCI.Client.csproj.CoreCompileInputs.cache
+F:\PROJECTS\github\onemap-map\obj\Debug\Client.dll
+F:\PROJECTS\github\onemap-map\obj\Debug\Client.pdb
+F:\PROJECTS\github\onemap-map\obj\Debug\DCI.Client.csprojAssemblyReference.cache

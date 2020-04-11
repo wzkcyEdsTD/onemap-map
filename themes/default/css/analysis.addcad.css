@@ -113,7 +113,9 @@ overflow: hidden;
     overflow: hidden;
 }
 
-
+.popupLittleUp {
+    bottom: 24px !important;
+}
 /*op*/
 .op{position:relative;margin:10%;border:1px solid #ddd;width:140px;height:30px;top:0px;left:10px}
 .op-result{width:170px;padding:12px 15px;border:none;outline:none;}

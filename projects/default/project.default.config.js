@@ -29,7 +29,17 @@ var Project_Paths = {
 var Project_Shim = {
 
 }
-
+/**
+ * 头部额外功能
+ * */
+var Mean_paramConfig = [
+    {
+        clsName: "icon-draw",
+        handler: "provisionalLabel",
+        id: "ProvisionalLabel",
+        name: "地图临时标注"
+    }
+]
 /**
 *运维系统配置
 *@module config
@@ -184,6 +194,19 @@ var Project_ParamConfig = {
     *@type {String}
     */
     defaultUserImages: "http://192.168.39.41/GGSS/map",
+    /**
+    *node图片地址
+    *@property defaultUserImages
+    *@type {String}
+    */
+    defaultNodeImages: "http://192.168.39.41/GGSS/mapNode/page/upload",
+    /**
+    *node服务
+    *@property defaultUserImages
+    *@type {String}
+    */
+    defaultNodeHost: "http://192.168.39.41:3000",
+    devNodeHost: "http://localhost:3000",
     /**
     *转发地址
     *@property defaultProxy

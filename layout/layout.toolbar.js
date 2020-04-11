@@ -51,7 +51,13 @@ define("layout/toolbar", [
         *@private
         */
         _loadTools: function () {
-            L.dci.app.menu.register(this, function (data) {
+            L.dci.app.menu.register(this, function (_data_) {
+                const data = _data_.map(item => {
+                    if (item.clsName === 'icon-more') {
+                        item.menu = item.menu.concat(Mean_paramConfig)
+                    }
+                    return item;
+                });
                 var content = $("#toolbar");
                 var html = [];
                 for (var j = 0; j < data.length; j++) {
@@ -605,6 +611,23 @@ define("layout/toolbar", [
                 greenSpaceAnalysis = L.dci.app.pool.get("greenSpaceAnalysis");
             }
             $('#GreenSpaceAnalysis').on('click', { obj: this }, this.tool);
+        },
+        /**
+         * 临时标注列表
+         * @param {any} name
+         * @param {any} eleObj
+         */
+        createToolInputContent_PL: function (name, eleObj) {
+            var html = '';
+            html += '<div style="width: 400px;margin-top: 10px;">'
+                + '<button type="button" class="btn btn-default">新增</button>'
+                + '</div>';
+            //弹出工具盒
+            this.toolBox(`${name}列表`, html, eleObj, function () {
+                if (L.dci.app.pool.has("provisionalLabel") == true) {
+                    var provisionalLabel = L.dci.app.pool.get("provisionalLabel");
+                }
+            });
         },
         /**
         *分析下来菜单html

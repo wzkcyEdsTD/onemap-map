@@ -108,7 +108,13 @@ define("core/map", [
          *@private
          */
         _highLightLayer: null,
-
+        /**
+         *临时图标图层
+         *@property _labelLayer
+         *@type {Object}
+         *@private
+         */
+        _labelLayer : null,
          /**
          *高亮图层集合
          *@property _HLLayer
@@ -340,6 +346,9 @@ define("core/map", [
             this._highLightLayer = new L.layerGroup();
             this._highLightLayer.addTo(this.map);
 
+            this._labelLayer = new L.layerGroup();
+            this._labelLayer.addTo(this.map);
+
             this._geoJsonLayerGroup = new L.geoJson();
             this._geoJsonLayerGroup.addTo(this.map);
             this._popup = L.popup({
@@ -431,6 +440,14 @@ define("core/map", [
                         this._drawTool = L.dci.draw(this.map, this);
                     this._drawTool.clear();
                     this._drawTool.polylineIdentify();
+                    //鼠标收起事件
+                    this._events.push({
+                        "event": this.map.on("mouseup", function (e) {
+                            if (e.originalEvent.button == 0) {   //如果为鼠标左键
+                                this._callback(e);
+                            }
+                        }, context), "type": type, mapType: 'mouseup'
+                    });
                 }
             }
             // 线选 缓冲区
@@ -609,7 +626,6 @@ define("core/map", [
             this._callback = null;
             this._events = [];
             this.setCursor(L.DCI.Map.StatusType.PAN);
-
         },
 
         /**
@@ -659,7 +675,7 @@ define("core/map", [
 
                         this.map.addLayer(layer.group);
                         this._shpLayerGroups.push(layer);
-                        break;
+                        break;xa
                     }
                 }
             }
@@ -928,6 +944,7 @@ define("core/map", [
             if (this._query) this._query.clear();
             if (this._popup) this.map.removeLayer(this._popup);
             if (this._highLightLayer) this._highLightLayer.clearLayers();
+            if (this._labelLayer) this._labelLayer.clearLayers();
             if (this._geoJsonLayerGroup) this._geoJsonLayerGroup.clearLayers();
             this.clearAllHLLayer();
             this.removeAllCad();
@@ -1240,7 +1257,14 @@ define("core/map", [
         getHighLightLayer: function () {
             return this._highLightLayer;
         },
-
+        /**
+        *获取图层
+        *@method getLabelLayer
+        *@return {Object} 返回图层对象
+        */
+        getLabelLayer: function () {
+            return this._labelLayer;
+        },
         /**
         *第二版获取高亮图层方法，防止互斥
         *@method getHLLayer

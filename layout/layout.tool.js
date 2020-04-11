@@ -34,6 +34,7 @@ define("layout/tool", [
     "analysis/auxiliaryloc",
     "analysis/conflictanalysis",
     "analysis/facilitiesStatistics",
+    "analysis/provisionalLabel",
     "query/projectquery",
     "query/propertyquery",
     "analysis/greenSpaceAnalysis",
@@ -782,6 +783,20 @@ define("layout/tool", [
             }
             var facilitiesStatistics = new L.DCI.FacilitiesStatistics();
             L.dci.app.pool.add(facilitiesStatistics);
+        },
+        /**
+         * 临时标注
+         * */
+        provisionalLabel: function () {
+            if (L.dci.app.pool.has("LeftContentPanel") == false) {
+                var leftcontentpanel = new L.DCI.Layout.LeftContentPanel();
+                L.dci.app.pool.add(leftcontentpanel);
+            }
+            if (L.dci.app.pool.has("ProvisionalLabel") == true) {
+                L.dci.app.pool.remove('ProvisionalLabel');
+            }
+            var provisionalLabel = new L.DCI.ProvisionalLabel();
+            L.dci.app.pool.add(provisionalLabel);
         },
         /**
         **绿地变化分析

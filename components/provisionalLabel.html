@@ -1,0 +1,242 @@
+﻿<div class="ProvisionalLabel">
+
+    <div class="alPanel">
+        <div class="rowsblock">
+            <label class="tlabel">现有标注列表<button type="button" class="btn btn-default addLabel">新增标注</button></label>
+            <div class="labelList"></div>
+        </div>
+        <form class="form-inline" role="form" id="plForm">
+            <label class="tlabel">标注信息</label>
+            <div class="form-group">
+                <label for="name">备注</label>
+                <input type="text" class="form-control labelText" placeholder="请输入备注" style="display:block;">
+            </div>
+            <div class="form-group form-date">
+                <label for="name">标注时间</label>
+                <input type="text" class="form-control labelDate" disabled style="display:block;">
+            </div>
+            <div class="form-group form-maplabel">
+                <label for="name">地图标注</label>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="drawType" id="dxfwOption" value="dxfw">
+                        点标注
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="drawType" id="kxfwOption" value="kxfw">
+                        矩形标注
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="drawType" id="xxfwOption" value="xxfw">
+                        线形标注
+                    </label>
+                </div>
+                <!--
+    <div class="radio">
+        <label>
+            <input type="radio" name="drawType" id="dbfwOption" value="dbfw">
+            多边形标注
+        </label>
+    </div>
+    -->
+                <button type="button" class="btn btn-default drawGeo" id="drawGeo">设置地图标注</button>
+            </div>
+            <div class="form-group labelImg">
+                <label for="inputfile">图片</label>
+                <input type="file" id="inputfile">
+            </div>
+            <button type="button" class="btn btn-default uploadLabel">保存</button>
+        </form>
+    </div>
+</div>
+
+
+<style>
+    .ProvisionalLabel {
+        margin: 10px 16px;
+    }
+        .ProvisionalLabel .tlabel {
+            font-size: 16px;
+            display: block;
+            height: 40px;
+            line-height: 40px;
+        }
+    .addLabel {
+        height: 24px;
+        line-height: 24px;
+        padding: 0px 10px;
+        float: right;
+    }
+    #plForm {
+        display: none;
+        margin-top: 10px;
+    }
+    #plForm .form-group {
+        margin-bottom: 8px!important;
+        width : 100%;
+    }
+        #plForm .form-group > * {
+            display: inline-block !important;
+            vertical-align: text-top;
+            line-height: 30px;
+            font-size: 16px;
+            font-weight: 300;
+        }
+            #plForm .form-group > label {
+                width : 80px;
+            }
+        #plForm .form-group > input[type='text'] {
+            width: 200px;
+        }
+        #plForm .drawGeo {
+            height: 28px;
+            line-height: 28px;
+            padding: 0px 10px;
+        }
+        .alPanleHead {
+            text-align: center;
+            background-color: #D7D7D7;
+        }
+
+    .statisticsSelect {
+        width: 98%;
+    }
+
+    .tjTypeSelect {
+        width: 98%;
+    }
+
+    .rowsblock {
+        margin: 5px;
+        position: relative;
+        padding-bottom : 0px!important;
+    }
+
+    .tjresult {
+        min-height: 60px
+    }
+
+    .confirmblock {
+        width: 100%;
+        height: 50px
+    }
+
+        .confirmblock button {
+            position: absolute;
+            left: 45%;
+            margin-top: 20px;
+        }
+
+    .ProvisionalLabel .mCSB_container {
+        padding: 0 10px;
+    }
+
+    .start {
+        background-color: #64c8ff;
+        min-width: 80px;
+    }
+
+        .start:hover {
+            background-color: #00a5ff;
+        }
+
+    /*开关按钮样式*/
+    .switch-box {
+        display: block;
+        margin-top: 24px;
+        margin-left: 30px;
+    }
+
+        .switch-box .switch-box-slider {
+            position: relative;
+            display: inline-block;
+            height: 8px;
+            width: 32px;
+            background: #d5d5d5;
+            border-radius: 8px;
+            cursor: pointer;
+            -webkit-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+        }
+
+            .switch-box .switch-box-slider:after {
+                position: absolute;
+                left: -8px;
+                top: -8px;
+                display: block;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background: #eeeeee;
+                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+                content: '';
+                -webkit-transition: all 0.2s ease;
+                transition: all 0.2s ease;
+            }
+
+        .switch-box .switch-box-input {
+            display: none;
+        }
+
+            .switch-box .switch-box-input ~ .switch-box-label {
+                margin-left: 8px;
+            }
+
+            .switch-box .switch-box-input:checked ~ .switch-box-slider:after {
+                left: 16px;
+            }
+
+            .switch-box .switch-box-input:disabled ~ .switch-box-slider {
+                background: #e2e2e2;
+                cursor: default;
+            }
+
+                .switch-box .switch-box-input:disabled ~ .switch-box-slider:after {
+                    background: #d5d5d5;
+                }
+
+        .switch-box.is-info .switch-box-input:checked:not(:disabled) ~ .switch-box-slider {
+            background: #5faee3;
+        }
+
+            .switch-box.is-info .switch-box-input:checked:not(:disabled) ~ .switch-box-slider:after {
+                background: #3498db;
+            }
+
+    .rowsblock {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px rgba(0,0,0,0.1) solid;
+    }
+    .labelList {
+        max-height: 240px;
+        overflow-y: auto;
+    }
+    .labelList > .singleLabel {
+        margin-bottom: 6px;
+        cursor: pointer;
+        transition: all 0.4s;
+        line-height: 20px;
+        padding-bottom: 6px;
+        border-bottom: 1px rgba(0,0,0,0.1) solid;
+    }
+        .labelList > .singleLabel > span:last-child {
+            float: right;
+            margin-right: 10px;
+        }
+        .labelList > .singleLabel > .icon-close1 {
+            float: right;
+            line-height: 20px;
+            font-size : 12px;
+        }
+    .labelList > .singleLabel:last-child {
+        border-bottom:0px
+     }
+    .labelList > .singleLabel:hover {
+        background-color : rgba(0,0,0,0.1);
+    }
+</style>

@@ -102,6 +102,7 @@ var Default_Paths = {
 
     "analysis/conflictanalysis": '../modules/analysis/analysis.conflictanalysis',
     "analysis/facilitiesStatistics": '../modules/analysis/analysis.facilitiesStatistics',
+    "analysis/provisionalLabel": '../modules/analysis/analysis.provisionalLabel',
 
     "common/plotting": '../modules/common/common.plotting',
     "common/projectPhase": '../modules/common/common.projectPhase',
