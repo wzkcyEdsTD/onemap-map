@@ -367,6 +367,7 @@ define("core/map", [
         *@param context {Object} 当前上下文
         */
         activate: function (type, callback, precall, context) {
+            
             this.deactivate();
             this.setCursor(type);
             if (type == L.DCI.Map.StatusType.SELECT) {//选择

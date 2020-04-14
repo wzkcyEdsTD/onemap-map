@@ -2,21 +2,43 @@
 
     <div class="alPanel">
         <div class="rowsblock">
-            <label class="tlabel">现有标注列表<button type="button" class="btn btn-default addLabel">新增标注</button></label>
+            <label class="tlabel">现有标注列表</label>
+            <div class="form-inline" id="plFetchForm">
+                <div class="form-group">
+                    <label for="info">信息</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="prod">是否解决</label>
+                    <select class="form-control">
+                        <option value='0'>已解决</option>
+                        <option value='1'>未解决</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-default fetchLabel">搜索</button>
+                <button type="button" class="btn btn-default addLabel">新增标注</button>
+            </div>
             <div class="labelList"></div>
         </div>
-        <form class="form-inline" role="form" id="plForm">
+        <form class="form" role="form" id="plForm">
             <label class="tlabel">标注信息</label>
             <div class="form-group">
-                <label for="name">备注</label>
+                <label for="info">信息</label>
                 <input type="text" class="form-control labelText" placeholder="请输入备注" style="display:block;">
             </div>
             <div class="form-group form-date">
-                <label for="name">标注时间</label>
-                <input type="text" class="form-control labelDate" disabled style="display:block;">
+                <label for="time">标注时间</label>
+                <input type="text" class="form-control labelDate" disabled>
+            </div>
+            <div class="form-group form-prod">
+                <label for="prod">是否解决</label>
+                <select class="form-control labelSelect">
+                    <option value='0'>已解决</option>
+                    <option value='1'>未解决</option>
+                </select>
             </div>
             <div class="form-group form-maplabel">
-                <label for="name">地图标注</label>
+                <label for="geometry">地图标注</label>
                 <div class="radio">
                     <label>
                         <input type="radio" name="drawType" id="dxfwOption" value="dxfw">
@@ -35,18 +57,10 @@
                         线形标注
                     </label>
                 </div>
-                <!--
-    <div class="radio">
-        <label>
-            <input type="radio" name="drawType" id="dbfwOption" value="dbfw">
-            多边形标注
-        </label>
-    </div>
-    -->
                 <button type="button" class="btn btn-default drawGeo" id="drawGeo">设置地图标注</button>
             </div>
             <div class="form-group labelImg">
-                <label for="inputfile">图片</label>
+                <label for="img">图片</label>
                 <input type="file" id="inputfile">
             </div>
             <button type="button" class="btn btn-default uploadLabel">保存</button>
@@ -59,48 +73,62 @@
     .ProvisionalLabel {
         margin: 10px 16px;
     }
+
         .ProvisionalLabel .tlabel {
             font-size: 16px;
             display: block;
             height: 40px;
             line-height: 40px;
         }
+
     .addLabel {
-        height: 24px;
-        line-height: 24px;
-        padding: 0px 10px;
         float: right;
     }
+
+    #plFetchForm {
+        margin-bottom: 10px;
+    }
+
     #plForm {
         display: none;
         margin-top: 10px;
     }
-    #plForm .form-group {
-        margin-bottom: 8px!important;
-        width : 100%;
-    }
-        #plForm .form-group > * {
-            display: inline-block !important;
-            vertical-align: text-top;
-            line-height: 30px;
-            font-size: 16px;
-            font-weight: 300;
+
+        #plForm .form-group {
+            margin-bottom: 8px !important;
+            width: 100%;
         }
-            #plForm .form-group > label {
-                width : 80px;
+
+            #plForm .form-group > * {
+                display: inline-block !important;
+                vertical-align: text-top;
+                line-height: 30px;
+                font-size: 16px;
+                font-weight: 300;
             }
-        #plForm .form-group > input[type='text'] {
-            width: 200px;
-        }
+
+            #plForm .form-group > label {
+                width: 80px;
+            }
+
+            #plForm .form-group > input[type='text'] {
+                width: 200px;
+            }
+
+            #plForm .form-group > select {
+                width: 200px;
+            }
+
         #plForm .drawGeo {
             height: 28px;
             line-height: 28px;
             padding: 0px 10px;
         }
-        .alPanleHead {
-            text-align: center;
-            background-color: #D7D7D7;
-        }
+
+    .alPanleHead {
+        text-align: center;
+        background-color: #D7D7D7;
+    }
 
     .statisticsSelect {
         width: 98%;
@@ -113,7 +141,7 @@
     .rowsblock {
         margin: 5px;
         position: relative;
-        padding-bottom : 0px!important;
+        padding-bottom: 0px !important;
     }
 
     .tjresult {
@@ -212,31 +240,37 @@
         margin-bottom: 10px;
         border-bottom: 1px rgba(0,0,0,0.1) solid;
     }
+
     .labelList {
         max-height: 240px;
         overflow-y: auto;
     }
-    .labelList > .singleLabel {
-        margin-bottom: 6px;
-        cursor: pointer;
-        transition: all 0.4s;
-        line-height: 20px;
-        padding-bottom: 6px;
-        border-bottom: 1px rgba(0,0,0,0.1) solid;
-    }
-        .labelList > .singleLabel > span:last-child {
-            float: right;
-            margin-right: 10px;
-        }
-        .labelList > .singleLabel > .icon-close1 {
-            float: right;
+
+        .labelList > .singleLabel {
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all 0.4s;
             line-height: 20px;
-            font-size : 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px rgba(0,0,0,0.1) solid;
         }
-    .labelList > .singleLabel:last-child {
-        border-bottom:0px
-     }
-    .labelList > .singleLabel:hover {
-        background-color : rgba(0,0,0,0.1);
-    }
+
+            .labelList > .singleLabel > span:last-child {
+                float: right;
+                margin-right: 10px;
+            }
+
+            .labelList > .singleLabel > .icon-close1 {
+                float: right;
+                line-height: 20px;
+                font-size: 12px;
+            }
+
+            .labelList > .singleLabel:last-child {
+                border-bottom: 0px
+            }
+
+            .labelList > .singleLabel:hover {
+                background-color: rgba(0,0,0,0.1);
+            }
 </style>

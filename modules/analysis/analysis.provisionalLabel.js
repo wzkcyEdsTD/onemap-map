@@ -25,7 +25,7 @@ define("analysis/provisionalLabel", [
         *@type {String}
         */
         id: 'ProvisionalLabel',
-        _drawList : [],
+        _drawList: [],
         _mousedown: null,
         _mouseup: null,
         _drawType: null,
@@ -37,7 +37,7 @@ define("analysis/provisionalLabel", [
         *@private
         */
         _results: [],
-        _forceLabelId : null,
+        _forceLabelId: null,
         /**
         *初始化
         *@method initialize
@@ -84,19 +84,22 @@ define("analysis/provisionalLabel", [
                 if (row.length) {
                     _this._forceLabelId = id;
                     $(".labelImg img").remove();
-                    row[0][3] && $(".labelImg").append(`<img src='${Project_ParamConfig.devNodeHost}/upload/${row[0][3]}' width=400px>`); 
+                    row[0][3] && $(".labelImg").append(`<img src='${Project_ParamConfig.defaultNodeHost}/upload/${row[0][3]}' width=400px>`);
                     $("#plForm").show();
+                    $("#plForm .form-date").show();
+                    $("#plForm .form-prod").show();
+                    $("#plForm .form-maplabel").hide();
                     $("#plForm .labelText").val(row[0][2]);
                     $("#plForm .labelDate").val(new Date(row[0][6]).toLocaleString());
-                    $("#plForm .form-date").show();
-                    $("#plForm .form-maplabel").hide();
+                    $(`#plForm .labelSelect option[value='${row[0][5]}']`).prop("selected", true);
+
                     //  panto
                     const map = L.DCI.App.pool.get('MultiMap').getActiveMap();
                     const geometry = JSON.parse(row[0][4]);
                     const type = row[0][7];
-                    const _geometry = type == "dxfw" || type == "xxfw" ? geometry[geometry.length-1] : {
-                        lat: (geometry[0].lat + geometry[geometry.length-1].lat) / 2,
-                        lng: (geometry[0].lng + geometry[geometry.length-1].lng) / 2,
+                    const _geometry = type == "dxfw" || type == "xxfw" ? geometry[geometry.length - 1] : {
+                        lat: (geometry[0].lat + geometry[geometry.length - 1].lat) / 2,
+                        lng: (geometry[0].lng + geometry[geometry.length - 1].lng) / 2,
                     }
                     map.map.panTo(_geometry);
                     L.popup({ maxWidth: 80, className: 'popupLittleUp' })
@@ -110,9 +113,9 @@ define("analysis/provisionalLabel", [
                 e.stopPropagation();
                 const id = $(this).attr("data-id");
                 $.ajax({
-                    url: `${Project_ParamConfig.devNodeHost}/deletePl`,
+                    url: `${Project_ParamConfig.defaultNodeHost}/deletePl`,
                     type: 'post',
-                    data: { id , userid: L.dci.app.util.user.getCurUser().id },
+                    data: { id, userid: L.dci.app.util.user.getCurUser().id },
                     success: ({ data }) => {
                         L.dci.app.util.dialog.alert("温馨提示", "删除标注成功");
                         _this.fetchLabelList();
@@ -121,15 +124,16 @@ define("analysis/provisionalLabel", [
             })
             $("#inputfile").on('change', function (e) { //  图片选择
                 $(".labelImg img").remove();
-                $(".labelImg").append("<img src='" + URL.createObjectURL($(e.target)[0].files[0]) + "' width=400px>");  
+                $(".labelImg").append("<img src='" + URL.createObjectURL($(e.target)[0].files[0]) + "' width=400px>");
             })
             $("body").on('click', '.addLabel', () => {
                 _this._forceLabelId = null;
                 $(".labelImg img").remove();
                 $("#plForm").show();
-                $("#plForm .labelText").val('');
                 $("#plForm .form-date").hide();
+                $("#plForm .form-prod").hide();
                 $("#plForm .form-maplabel").show();
+                $("#plForm .labelText").val('');
             })
             $("body").on('click', '.uploadLabel', () => {
                 if (!_this._drawType && !_this._forceLabelId) return L.dci.app.util.dialog.alert("温馨提示", "请在地图上添加标注");
@@ -140,8 +144,9 @@ define("analysis/provisionalLabel", [
                 formData.append('type', _this._drawType);
                 formData.append('geometry', JSON.stringify(this._drawList));
                 _this._forceLabelId && formData.append('id', _this._forceLabelId);
+                _this._forceLabelId && formData.append('prod', parseInt($(".labelSelect").val()));
                 $.ajax({
-                    url: `${Project_ParamConfig.devNodeHost}/updatePl`,
+                    url: `${Project_ParamConfig.defaultNodeHost}/updatePl`,
                     type: 'post',
                     data: formData,
                     cache: false,
@@ -213,9 +218,9 @@ define("analysis/provisionalLabel", [
          */
         fetchLabelList: function (fn) {
             $.ajax({
-                url: `${Project_ParamConfig.devNodeHost}/fetchPl`,
+                url: `${Project_ParamConfig.defaultNodeHost}/fetchPl`,
                 type: 'post',
-                data: { userid: L.dci.app.util.user.getCurUser().id},
+                data: { userid: L.dci.app.util.user.getCurUser().id },
                 success: ({ data }) => {
                     this._results = data.rows;
                     this.drawDomMap && this.drawDomMap(data.rows);
@@ -226,7 +231,7 @@ define("analysis/provisionalLabel", [
             //  dom
             const _dom_ = $(".labelList");
             _dom_.empty();
-            _dom_.html(data.map(([id, userid, info, img, geometry, prod, time,type]) => {
+            _dom_.html(data.map(([id, userid, info, img, geometry, prod, time, type]) => {
                 return `<div class="singleLabel" data-id="${id}">
                     <span>备注: ${info}</span>
                     <span class="icon-close1 doDelete" data-id="${id}"></span>
@@ -245,7 +250,7 @@ define("analysis/provisionalLabel", [
                     new L.marker(geometry[0]).addTo(hlLayer);
                 } else if (type == 'kxfw') {   //如果为框选
                     var bounds = L.latLngBounds(geometry[0], geometry[1]);
-                   new L.Rectangle(bounds).addTo(hlLayer);;
+                    new L.Rectangle(bounds).addTo(hlLayer);;
                 } else if (type == 'xxfw') {
                     new L.polyline(geometry, { color: 'red' }).addTo(hlLayer);;
                 }

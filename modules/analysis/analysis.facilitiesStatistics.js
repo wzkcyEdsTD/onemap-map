@@ -369,7 +369,7 @@ define("analysis/facilitiesStatistics", [
 
                 this._mousedown = null;
                 this._mouseup = null;
-               
+                map.deactivate();
             }
         },
 
