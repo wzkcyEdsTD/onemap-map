@@ -38,6 +38,11 @@ define("analysis/provisionalLabel", [
         */
         _results: [],
         _forceLabelId: null,
+        _typeHash: {
+            'dxfw': '点',
+            'xxfw': '线',
+            'kxfw': '面',
+        },
         /**
         *初始化
         *@method initialize
@@ -84,7 +89,7 @@ define("analysis/provisionalLabel", [
                 if (row.length) {
                     _this._forceLabelId = id;
                     $(".labelImg img").remove();
-                    row[0][3] && $(".labelImg").append(`<img src='${Project_ParamConfig.defaultNodeHost}/upload/${row[0][3]}' width=400px>`);
+                    row[0][3] && $(".labelImg").append(`<img src='${Project_ParamConfig.devNodeHost}/upload/${row[0][3]}' width=400px>`);
                     $("#plForm").show();
                     $("#plForm .form-date").show();
                     $("#plForm .form-prod").show();
@@ -113,7 +118,7 @@ define("analysis/provisionalLabel", [
                 e.stopPropagation();
                 const id = $(this).attr("data-id");
                 $.ajax({
-                    url: `${Project_ParamConfig.defaultNodeHost}/deletePl`,
+                    url: `${Project_ParamConfig.devNodeHost}/deletePl`,
                     type: 'post',
                     data: { id, userid: L.dci.app.util.user.getCurUser().id },
                     success: ({ data }) => {
@@ -121,6 +126,9 @@ define("analysis/provisionalLabel", [
                         _this.fetchLabelList();
                     }
                 })
+            })
+            $("body").on('click', '.fetchLabel', () => {
+                _this.fetchLabelList()
             })
             $("#inputfile").on('change', function (e) { //  图片选择
                 $(".labelImg img").remove();
@@ -146,7 +154,7 @@ define("analysis/provisionalLabel", [
                 _this._forceLabelId && formData.append('id', _this._forceLabelId);
                 _this._forceLabelId && formData.append('prod', parseInt($(".labelSelect").val()));
                 $.ajax({
-                    url: `${Project_ParamConfig.defaultNodeHost}/updatePl`,
+                    url: `${Project_ParamConfig.devNodeHost}/updatePl`,
                     type: 'post',
                     data: formData,
                     cache: false,
@@ -217,10 +225,21 @@ define("analysis/provisionalLabel", [
          * @param {any} fn 回调函数
          */
         fetchLabelList: function (fn) {
+            const stime = $("#plFetchForm input[name='stime']").val() || '';
+            const etime = $("#plFetchForm input[name='etime']").val() || '';
+            if (!((stime && etime) || (!stime && !etime))) return L.dci.app.util.dialog.alert("温馨提示", "请完善时间信息");
+            const data = {
+                userid: L.dci.app.util.user.getCurUser().id,
+                info: $("#plFetchForm input[name='info']").val() || '',
+                type: $("#plFetchForm select[name='type']").val() || '',
+                prod: $("#plFetchForm select[name='prod']").val() || '',
+                stime: $("#plFetchForm input[name='stime']").val() || '',
+                etime: $("#plFetchForm input[name='etime']").val() || '',
+            }
             $.ajax({
-                url: `${Project_ParamConfig.defaultNodeHost}/fetchPl`,
+                url: `${Project_ParamConfig.devNodeHost}/fetchPl`,
                 type: 'post',
-                data: { userid: L.dci.app.util.user.getCurUser().id },
+                data,
                 success: ({ data }) => {
                     this._results = data.rows;
                     this.drawDomMap && this.drawDomMap(data.rows);
@@ -229,13 +248,15 @@ define("analysis/provisionalLabel", [
         },
         drawDomMap: function (data) {
             //  dom
-            const _dom_ = $(".labelList");
+            const _dom_ = $(".labelListBody");
             _dom_.empty();
             _dom_.html(data.map(([id, userid, info, img, geometry, prod, time, type]) => {
                 return `<div class="singleLabel" data-id="${id}">
-                    <span>备注: ${info}</span>
-                    <span class="icon-close1 doDelete" data-id="${id}"></span>
+                    <span>${info}</span>
+                    <span>${this._typeHash[type] || ''}</span>
+                    <span>${prod == '1' ? '未解决' : '已解决'}</span>
                     <span>${new Date(time).toLocaleString()}</span>
+                    <span class="icon-close1 doDelete" data-id="${id}"></span>
                 </div>`
             }).join(''));
             //  map

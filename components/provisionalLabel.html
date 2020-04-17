@@ -6,19 +6,42 @@
             <div class="form-inline" id="plFetchForm">
                 <div class="form-group">
                     <label for="info">信息</label>
-                    <input type="text" class="form-control">
+                    <input name="info" type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="type">类型</label>
+                    <select name="type" class="form-control">
+                        <option value>全部</option>
+                        <option value='dxfw'>点标注</option>
+                        <option value='kxfw'>线标注</option>
+                        <option value='xxfw'>面标注</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="prod">是否解决</label>
-                    <select class="form-control">
+                    <select name="prod" class="form-control">
+                        <option value>全部</option>
                         <option value='0'>已解决</option>
                         <option value='1'>未解决</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="time">时间</label>
+                    <input name="stime" type="text" class="form-control" onclick="WdatePicker()">
+                    至 <input name="etime" type="text" class="form-control" onclick="WdatePicker()">
+                </div>
                 <button type="button" class="btn btn-default fetchLabel">搜索</button>
                 <button type="button" class="btn btn-default addLabel">新增标注</button>
             </div>
-            <div class="labelList"></div>
+            <div class="labelList">
+                <div class="labelListHeader">
+                    <span>信息</span>
+                    <span>类型</span>
+                    <span>是否解决</span>
+                    <span>更新时间</span>
+                </div>
+                <div class="labelListBody"></div>
+            </div>
         </div>
         <form class="form" role="form" id="plForm">
             <label class="tlabel">标注信息</label>
@@ -89,9 +112,14 @@
         margin-bottom: 10px;
     }
 
+        #plFetchForm > div {
+            margin-bottom: 6px;
+        }
+
     #plForm {
         display: none;
         margin-top: 10px;
+        position: relative;
     }
 
         #plForm .form-group {
@@ -101,7 +129,7 @@
 
             #plForm .form-group > * {
                 display: inline-block !important;
-                vertical-align: text-top;
+                /*vertical-align: text-top;*/
                 line-height: 30px;
                 font-size: 16px;
                 font-weight: 300;
@@ -123,6 +151,15 @@
             height: 28px;
             line-height: 28px;
             padding: 0px 10px;
+        }
+
+        #plForm .labelImg > img {
+            position: absolute;
+            top: 44px;
+            right: 0;
+            max-width: 300px;
+            max-height: 120px;
+            border-radius: 4px;
         }
 
     .alPanleHead {
@@ -242,35 +279,61 @@
     }
 
     .labelList {
-        max-height: 240px;
-        overflow-y: auto;
     }
 
-        .labelList > .singleLabel {
-            margin-bottom: 6px;
-            cursor: pointer;
-            transition: all 0.4s;
-            line-height: 20px;
-            padding-bottom: 6px;
-            border-bottom: 1px rgba(0,0,0,0.1) solid;
+        .labelList > div span {
+            min-width: 90px;
+            display: inline-block;
+            vertical-align: baseline;
         }
 
-            .labelList > .singleLabel > span:last-child {
-                float: right;
-                margin-right: 10px;
+        .labelList .labelListHeader {
+            height: 40px;
+            line-height: 40px;
+            font-size: 16px;
+            background-color: rgba(0,0,0,.05);
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+
+        .labelList .labelListBody::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+            background-color: #F5F5F5;
+        }
+
+        .labelList .labelListBody::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0,0,0,.2);
+        }
+
+        .labelList .labelListBody {
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+            .labelList .labelListBody .singleLabel {
+                cursor: pointer;
+                transition: all 0.4s;
+                height: 36px;
+                line-height: 36px;
+                box-sizing: border-box;
+                padding: 0 10px;
+                border-bottom: 1px rgba(0,0,0,0.1) solid;
             }
 
-            .labelList > .singleLabel > .icon-close1 {
-                float: right;
-                line-height: 20px;
-                font-size: 12px;
-            }
+                .labelList .labelListBody .singleLabel > .icon-close1 {
+                    min-width: unset;
+                    float: right;
+                    line-height: 36px;
+                    font-size: 12px;
+                }
 
-            .labelList > .singleLabel:last-child {
-                border-bottom: 0px
-            }
+                .labelList .labelListBody .singleLabel:last-child {
+                    border-bottom: 0px
+                }
 
-            .labelList > .singleLabel:hover {
-                background-color: rgba(0,0,0,0.1);
-            }
+                .labelList .labelListBody .singleLabel:hover {
+                    background-color: rgba(0,0,0,0.1);
+                }
 </style>
